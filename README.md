@@ -87,6 +87,7 @@ python scripts/extract_landmarks.py          # stage 1: ONNX -> landmarks_67_<mo
 python scripts/run_image_analysis.py         # stage 2: parameters, recognition, rules, summaries (~10 s)
 python scripts/run_image_analysis.py --full  # both stages in one pass
 python scripts/calibrate_thresholds.py       # measured values per camera / variation
+python scripts/acceptance_check.py           # verify every acceptance criterion
 ```
 
 Useful options: `--models rtmw_l_wholebody`, `--cameras "Cam 5"`.
@@ -117,6 +118,24 @@ python scripts/run_video_analysis.py video.MP4 --model dwpose_l_wholebody --max-
 
 Writes to `outputs/video_results/`: an annotated MP4, a per-frame CSV (raw and
 smoothed values) and a `_segments.csv` posture timeline.
+
+Six frames from one 53 s Cam 5 clip, showing the readout changing as the dancer
+moves between postures and between CORRECT and INCORRECT:
+
+![Dynamic video feedback](docs/video_feedback_frames.jpg)
+
+The timeline printed for that clip:
+
+```
+t=  0.00s  SAMAPADHAM    CORRECT
+t= 18.00s  ALAPADMA      INCORRECT  | Elbows not aligned with shoulders
+t= 22.00s  ARAMANDI      INCORRECT  | Feet not spread in a straight line / V-shaped
+t= 24.40s  MUSHTI        CORRECT
+t= 27.80s  PATAKA        CORRECT
+t= 38.40s  SAMAPADHAM    INCORRECT  | Feet not aligned / V-shaped
+t= 42.80s  SAMAPADHAM    CORRECT
+t= 47.00s  SWASTIKAPADAM INCORRECT  | Insufficient Aramandi
+```
 
 ## 5. Running the user interface
 
