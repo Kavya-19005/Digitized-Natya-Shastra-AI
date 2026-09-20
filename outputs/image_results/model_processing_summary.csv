@@ -1,0 +1,4 @@
+model_name,model_layout,total_images_processed,successful_detections,detection_rate_pct,required_landmarks_available,parameter_calculation_success,posture_recognised,posture_accuracy_pct,status_accuracy_pct,mean_processing_ms,mean_detect_ms,mean_pose_ms
+rtmw_l_wholebody,coco_wholebody_133,208,208,100.0,208,208,205,63.0,54.8,581.5,404.0,177.5
+dwpose_l_wholebody,coco_wholebody_133,208,208,100.0,207,208,206,61.1,55.3,673.0,451.5,221.5
+rtmpose_m_halpe26,halpe_26,208,208,100.0,208,208,208,50.0,50.5,212.7,181.4,31.3

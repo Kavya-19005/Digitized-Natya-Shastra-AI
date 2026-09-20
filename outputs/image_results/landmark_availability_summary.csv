@@ -1,0 +1,4 @@
+model_name,model_layout,landmark_slots_supported_by_layout,mean_landmarks_available,body_landmarks_available_pct,feet_landmarks_available_pct,arm_landmarks_available_pct,left_hand_available_pct,right_hand_available_pct,either_hand_available_pct
+rtmw_l_wholebody,coco_wholebody_133,67,64.2,100.0,100.0,100.0,68.8,72.1,77.9
+dwpose_l_wholebody,coco_wholebody_133,67,60.5,99.5,100.0,99.5,64.9,56.2,72.1
+rtmpose_m_halpe26,halpe_26,19,19.0,100.0,99.0,100.0,0.0,0.0,0.0

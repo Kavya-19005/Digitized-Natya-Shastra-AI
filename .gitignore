@@ -1,0 +1,46 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# --- Model binaries (large; fetch with scripts/download_models.py) ---
+models/onnx/*.onnx
+models/onnx/*.zip
+
+# --- Datasets stay outside the repository ---
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# --- Generated artefacts ---
+outputs/**/*.mp4
+outputs/**/*.avi
+outputs/**/*.jpg
+outputs/**/*.png
+outputs/logs/*
+!outputs/logs/.gitkeep
+outputs/video_results/*
+!outputs/video_results/.gitkeep
+
+# --- Large media ---
+*.mp4
+*.mov
+*.avi
+*.LRF
+
+# --- Secrets ---
+.env
+*.key
+*.pem
+secrets.*
+
+# --- OS / editor ---
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/

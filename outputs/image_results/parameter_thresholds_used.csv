@@ -1,0 +1,42 @@
+posture,rule_key,parameter,kind,unit,correct_limit,borderline_limit,correct_range_low,correct_range_high,borderline_range_low,borderline_range_high,provenance,note
+ARAMANDI,mean_knee_flexion_deg,mean_knee_flexion_deg,range,deg,,,30.0,45.0,25.0,55.0,PROJECT_SPEC,"30-45 correct / 25-30 borderline / <25 incorrect are PROJECT_SPEC. The 45-55 upper borderline band is an ENGINEERING_DEFAULT: the specification lists no 'too deep' Aramandi error, deeper bends are recognised as Muzhumandi instead."
+ARAMANDI,knee_asymmetry_deg,knee_asymmetry_deg,max,deg,10.0,15.0,,,,,PROJECT_SPEC,
+ARAMANDI,foot_separation_deviation_pct,foot_separation_deviation_pct,max,pct,5.0,15.0,,,,,PROJECT_SPEC,Band widths are PROJECT_SPEC. The target separation itself (0.6 shoulder widths) is an ENGINEERING_DEFAULT.
+ARAMANDI,foot_line_deviation_deg,foot_line_deviation_deg,max,deg,8.0,15.0,,,,,PROJECT_SPEC,
+ARAMANDI,mean_knee_foot_alignment_deg,mean_knee_foot_alignment_deg,max,deg,8.0,15.0,,,,,PROJECT_SPEC,
+ARAMANDI,trunk_inclination_deg,trunk_inclination_deg,max,deg,5.0,10.0,,,,,PROJECT_SPEC,
+ARAMANDI,pelvic_symmetry_deg,pelvic_symmetry_deg,max,deg,8.0,15.0,,,,,ENGINEERING_DEFAULT,Pelvic symmetry band mirrors the foot-line band; not fixed by spec.
+ARAMANDI,turnout_deviation_deg,turnout_deviation_deg,max,deg,20.0,32.0,,,,,ENGINEERING_DEFAULT,Deviation from a 45deg turnout target. Wider than the 8/15 orientation band because monocular turnout estimation from a heel-to-toe vector is noisy.
+SAMAPADHAM,mean_knee_flexion_deg,mean_knee_flexion_deg,max,deg,5.0,10.0,,,,,PROJECT_SPEC,
+SAMAPADHAM,foot_gap_norm,foot_gap_norm,max,shoulder_width,0.05,0.15,,,,,PROJECT_SPEC,"PROJECT_SPEC bands, applied to the gap between the feet. The feet-together baseline (0.3 shoulder widths of ankle-to-ankle distance) is DATA_CALIBRATED."
+SAMAPADHAM,turnout_deviation_deg,turnout_deviation_deg,max,deg,8.0,15.0,,,,,PROJECT_SPEC,"Foot orientation deviation from the 0deg (parallel, forward) target."
+SAMAPADHAM,knee_asymmetry_deg,knee_asymmetry_deg,max,deg,5.0,10.0,,,,,PROJECT_SPEC,
+SAMAPADHAM,trunk_inclination_deg,trunk_inclination_deg,max,deg,5.0,10.0,,,,,PROJECT_SPEC,
+SAMAPADHAM,weight_shift_proxy,weight_shift_proxy,max,shoulder_width,0.1,0.18,,,,,ENGINEERING_DEFAULT,The specification deliberately fixes no numeric band here. This is a landmark-based lateral weight-shift PROXY (offset of the shoulder/pelvis midline from the ankle midline); it does not measure ground reaction force.
+SAMAPADHAM,hip_tilt_deg,hip_tilt_deg,max,deg,6.0,12.0,,,,,ENGINEERING_DEFAULT,Secondary loading proxy used together with weight_shift_proxy.
+MUZHUMANDI,mean_knee_flexion_deg,mean_knee_flexion_deg,min,deg,120.0,105.0,,,,,PROJECT_SPEC,
+MUZHUMANDI,knee_asymmetry_deg,knee_asymmetry_deg,max,deg,10.0,15.0,,,,,PROJECT_SPEC,
+MUZHUMANDI,turnout_deviation_deg,turnout_deviation_deg,max,deg,8.0,15.0,,,,,PROJECT_SPEC,Knee/foot orientation deviation from the 45deg turnout target; detects the 'feet and knees facing forward' error.
+MUZHUMANDI,trunk_inclination_deg,trunk_inclination_deg,max,deg,8.0,15.0,,,,,PROJECT_SPEC,
+MUZHUMANDI,mean_heel_lift_norm,mean_heel_lift_norm,min,shoulder_width,0.04,0.015,,,,,ENGINEERING_DEFAULT,The specification says to 'check whether the required heel configuration is maintained' without a number. Heel lift is measured as the toe-to-heel vertical offset normalised by shoulder width; a heel pressed on the floor gives ~0.
+MUZHUMANDI,foot_separation_norm,foot_separation_norm,max,shoulder_width,1.6,1.9500000000000002,,,,,ENGINEERING_DEFAULT,Supports the 'feet far apart and heel pressing on floor' error.
+SWASTIKAPADAM,shin_crossing_distance_norm,shin_crossing_distance_norm,max,shoulder_width,0.35,0.55,,,,,ENGINEERING_DEFAULT,Legs must actually cross; a large gap means they never met.
+SWASTIKAPADAM,ankle_crossing_signed_norm,ankle_crossing_signed_norm,max,shoulder_width,0.25,0.45,,,,,ENGINEERING_DEFAULT,"Signed ankle gap; strongly negative values indicate OVERCROSSED shins. Interpreted from the labelled samples, not from literature."
+SWASTIKAPADAM,overcrossing_limit_norm,ankle_crossing_signed_norm,min,shoulder_width,-0.55,-0.8,,,,,ENGINEERING_DEFAULT,Lower bound on the signed ankle gap: below it the shins overcross.
+SWASTIKAPADAM,mean_knee_flexion_deg,mean_knee_flexion_deg,range,deg,,,30.0,45.0,25.0,60.0,PROJECT_SPEC,"Swastikapadam is held in Aramandi depth, so the Aramandi PROJECT_SPEC flexion range is reused to detect 'insufficient Aramandi'."
+SWASTIKAPADAM,trunk_inclination_deg,trunk_inclination_deg,max,deg,8.0,15.0,,,,,ENGINEERING_DEFAULT,
+SWASTIKAPADAM,shin_crossing_angle_deg,shin_crossing_angle_deg,max,deg,35.0,50.0,,,,,ENGINEERING_DEFAULT,"Reported for the record. No universal published crossing-angle threshold exists, so this band is NOT used to fail a posture on its own."
+PATAKA,mean_finger_straightness_deg,mean_finger_straightness_deg,min,deg,160.0,145.0,,,,,PROJECT_SPEC,
+PATAKA,mean_elbow_shoulder_alignment_norm,mean_elbow_shoulder_alignment_norm,max,shoulder_width,0.08,0.15,,,,,PROJECT_SPEC,
+PATAKA,mean_interfinger_spread_deg,mean_interfinger_spread_deg,max,deg,10.0,16.0,,,,,ENGINEERING_DEFAULT,Pataka keeps the fingers together; spread detects 'fingers too far apart'.
+PATAKA,mean_adjacent_fingertip_gap_norm,mean_adjacent_fingertip_gap_norm,max,palm_size,0.3,0.45,,,,,ENGINEERING_DEFAULT,
+ALAPADMA,mean_elbow_shoulder_alignment_norm,mean_elbow_shoulder_alignment_norm,max,shoulder_width,0.08,0.15,,,,,PROJECT_SPEC,
+ALAPADMA,mean_interfinger_spread_deg,mean_interfinger_spread_deg,min,deg,12.0,8.0,,,,,ENGINEERING_DEFAULT,Alapadma is a fully splayed lotus hand: fingers must be spread.
+ALAPADMA,palm_opening_norm,palm_opening_norm,min,palm_size,1.3,1.05,,,,,ENGINEERING_DEFAULT,
+MUSHTI,mean_finger_flexion_deg,mean_finger_flexion_deg,min,deg,55.0,38.0,,,,,ENGINEERING_DEFAULT,"Mushti is a closed fist, so the long fingers must be strongly flexed."
+MUSHTI,palm_opening_norm,palm_opening_norm,max,palm_size,0.95,1.15,,,,,ENGINEERING_DEFAULT,
+MUSHTI,pinky_relative_extension,pinky_relative_extension,max,ratio,1.25,1.45,,,,,ENGINEERING_DEFAULT,Pinky tip-to-palm distance divided by the mean of the other three fingers; detects 'pinky dropped / fingers loose'.
+KATAKAMUKHA,thumb_index_tip_distance_norm,thumb_index_tip_distance_norm,max,palm_size,0.45,0.7,,,,,ENGINEERING_DEFAULT,Katakamukha joins the thumb to the index and middle fingertips.
+KATAKAMUKHA,fingertip_cluster_spread_norm,fingertip_cluster_spread_norm,max,palm_size,0.35,0.55,,,,,ENGINEERING_DEFAULT,
+KATAKAMUKHA,ring_pinky_straightness_deg,ring_pinky_straightness_deg,min,deg,160.0,145.0,,,,,PROJECT_SPEC,"The ring and little fingers stay extended in Katakamukha, so the PROJECT_SPEC finger-straightness range applies to them; a drop below it is the 'fingers bent' error."
+KATAKAMUKHA,mean_elbow_shoulder_alignment_norm,mean_elbow_shoulder_alignment_norm,max,shoulder_width,0.08,0.15,,,,,PROJECT_SPEC,
