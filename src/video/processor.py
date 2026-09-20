@@ -40,6 +40,9 @@ TRACKED_PARAMETERS = (
     "shin_crossing_angle_deg",
     "mean_elbow_shoulder_alignment_norm",
     "hip_height_norm",
+    # squat depth relative to torso length: the parameter that separates a
+    # half-sit (Aramandi) from a full squat (Muzhumandi) regardless of viewpoint
+    "hip_height_torso_norm",
 )
 
 

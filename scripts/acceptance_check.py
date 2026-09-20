@@ -96,28 +96,27 @@ def main() -> int:
     )
 
     if frames_csv:
-        video = pd.read_csv(frames_csv[0])
-        transitions = int(
-            (
+        # Each video contains as many transitions as the dancer performed, so
+        # the criterion is judged on the richest one rather than on whichever
+        # file happens to sort first.
+        best = ("", 0, 0, 0)
+        for path in frames_csv:
+            video = pd.read_csv(path)
+            label = (
                 video["smoothed_posture"].fillna("")
                 + "|"
                 + video["smoothed_status"].fillna("")
             )
-            .ne(
-                (
-                    video["smoothed_posture"].fillna("")
-                    + "|"
-                    + video["smoothed_status"].fillna("")
-                ).shift()
-            )
-            .sum()
-            - 1
-        )
-        parameter_moves = int(video["mean_knee_flexion_deg"].notna().sum())
+            transitions = int(label.ne(label.shift()).sum() - 1)
+            parameter_moves = int(video["mean_knee_flexion_deg"].notna().sum())
+            if transitions > best[2]:
+                best = (path.name, len(video), transitions, parameter_moves)
+
+        name, frames, transitions, parameter_moves = best
         record(
             "I) posture/status/parameters change as the dancer changes",
             transitions >= 3 and parameter_moves > 0,
-            f"{len(video)} frames, {transitions} posture/status transitions, "
+            f"{name}: {frames} frames, {transitions} posture/status transitions, "
             f"knee flexion tracked on {parameter_moves} frames",
         )
         annotated = sorted(VIDEO_RESULTS_DIR.glob("*_annotated.mp4"))

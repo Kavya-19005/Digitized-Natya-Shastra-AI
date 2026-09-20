@@ -9,6 +9,7 @@ from ..correctness.thresholds import UNKNOWN
 from ..labels import STATUS_CORRECT, STATUS_INCORRECT
 from ..landmarks import common as C
 from ..landmarks.common import Landmarks
+from ..recognition.posture import TRANSITION
 from .smoothing import SmoothedState
 
 GREEN = (80, 220, 100)
@@ -128,8 +129,14 @@ def draw_feedback_panel(
         y += int(step * scale)
 
     put("DETECTED POSTURE", 0.46, GREY, 1, 26)
-    put(state.posture or "-- searching --", 0.85, WHITE, 2, 40)
-    put(f"STATUS: {state.status if state.posture else UNKNOWN}", 0.68, colour, 2, 34)
+    if state.posture == TRANSITION:
+        # not a posture: the frame sits between two of them, so no correctness
+        # verdict is shown rather than a misleading one
+        put("TRANSITION / UNCERTAIN", 0.62, AMBER, 2, 34)
+        put("STATUS: not a stable posture", 0.50, GREY, 1, 30)
+    else:
+        put(state.posture or "-- searching --", 0.85, WHITE, 2, 40)
+        put(f"STATUS: {state.status if state.posture else UNKNOWN}", 0.68, colour, 2, 34)
 
     if state.error_text:
         put("ISSUE", 0.44, GREY, 1, 22)

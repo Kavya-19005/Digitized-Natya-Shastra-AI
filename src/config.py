@@ -31,6 +31,7 @@ ANNOTATIONS_DIR = PROJECT_ROOT / "data" / "annotations"
 OUTPUTS_DIR = PROJECT_ROOT / "outputs"
 IMAGE_RESULTS_DIR = OUTPUTS_DIR / "image_results"
 VIDEO_RESULTS_DIR = OUTPUTS_DIR / "video_results"
+EVALUATION_DIR = OUTPUTS_DIR / "evaluation"
 LOGS_DIR = OUTPUTS_DIR / "logs"
 
 # --- inference defaults -----------------------------------------------------
@@ -43,5 +44,11 @@ SMOOTHING_WINDOW = 9
 
 
 def ensure_output_dirs() -> None:
-    for path in (IMAGE_RESULTS_DIR, VIDEO_RESULTS_DIR, LOGS_DIR, ANNOTATIONS_DIR):
+    for path in (
+        IMAGE_RESULTS_DIR,
+        VIDEO_RESULTS_DIR,
+        EVALUATION_DIR,
+        LOGS_DIR,
+        ANNOTATIONS_DIR,
+    ):
         path.mkdir(parents=True, exist_ok=True)

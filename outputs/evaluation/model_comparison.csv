@@ -1,0 +1,6 @@
+model,model_key,runnable,total_images,successful_images,failed_images,mean_landmarks_available,landmark_availability_percent,landmarks_supported,posture_accuracy,correctness_accuracy,body_posture_accuracy,mudra_posture_accuracy,processing_time_per_image_ms,body_parameter_availability,hand_parameter_availability,feet_parameter_availability,notes
+MediaPipe,mediapipe,1,208,208,0,39.98,59.7,67,53.4,57.7,60.4,35.9,229.5,79.8,30.8,90.4,mediapipe.solutions.holistic is importable
+OpenPose,openpose,1,208,208,0,16.41,24.5,19,29.8,51.9,46.0,,765.3,77.4,0.0,57.2,BODY_25 Caffe weights present (pose_iter_584000.caffemodel); hand landmarks not produced by this estimator; mudra accuracy not reported
+YOLO Pose,yolopose,1,208,208,0,13.64,20.4,15,43.3,39.9,62.5,,245.7,100.0,0.0,0.0,ultralytics is importable; YOLOv8n-pose weights load on first use; hand landmarks not produced by this estimator; mudra accuracy not reported
+RTMPose,rtmpose,1,208,208,0,18.99,28.3,19,52.9,50.5,76.4,,488.5,100.0,0.0,99.0,ONNX weights present: rtmpose-m_halpe26_256x192.onnx (body+feet; no hand landmarks by design); hand landmarks not produced by this estimator; mudra accuracy not reported
+RTMW,rtmw,1,208,208,0,64.25,95.9,67,62.0,54.8,68.8,46.9,1258.2,100.0,77.9,100.0,ONNX weights present: rtmw-dw-x-l_cocktail14_256x192.onnx

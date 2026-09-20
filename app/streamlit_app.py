@@ -20,6 +20,7 @@ from src.config import SMOOTHING_WINDOW, VIDEO_RESULTS_DIR, ensure_output_dirs
 from src.correctness.thresholds import POSTURE_THRESHOLDS
 from src.labels import STATUS_CORRECT, STATUS_INCORRECT
 from src.pose.registry import MODEL_SPECS, available_models, missing_models
+from src.recognition.posture import TRANSITION
 from src.video.processor import TRACKED_PARAMETERS, VideoProcessor
 
 st.set_page_config(
@@ -42,12 +43,20 @@ PARAMETER_LABELS = {
     "shin_crossing_angle_deg": "Shin crossing angle",
     "mean_elbow_shoulder_alignment_norm": "Elbow-shoulder alignment",
     "hip_height_norm": "Hip height (shoulder widths)",
+    "hip_height_torso_norm": "Squat depth (hip height / torso)",
 }
 
 
 def status_banner(posture: str, status: str, error_text: str) -> None:
     if not posture:
         st.info("Searching for the dancer...")
+        return
+    if posture == TRANSITION:
+        st.warning(
+            "### Detected posture: **TRANSITION / UNCERTAIN**\n\n"
+            "The dancer is between postures, so no correctness verdict is given "
+            "for this frame."
+        )
         return
     headline = f"### Detected posture: **{posture}**"
     if status == STATUS_CORRECT:

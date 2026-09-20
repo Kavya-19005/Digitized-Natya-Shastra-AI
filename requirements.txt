@@ -4,3 +4,6 @@ onnxruntime>=1.17
 pandas>=2.0
 streamlit>=1.30
 matplotlib>=3.7
+# Optional: used only by scripts/run_model_comparison.py, not by the RTMW video path.
+# mediapipe>=0.10
+# ultralytics>=8.0

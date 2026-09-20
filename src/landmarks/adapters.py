@@ -94,6 +94,73 @@ HALPE26_EXTRAS = {"left_small_toe": 22, "right_small_toe": 23}
 # ---------------------------------------------------------------------------
 COCO17_MAP = {k: v for k, v in HALPE26_MAP.items() if v <= 16}
 
+# ---------------------------------------------------------------------------
+# MediaPipe Holistic packed as pose(33) + left hand(21) + right hand(21)
+# Pose indices 15-22 (wrists/fingers) are omitted: the hand blocks cover them.
+# ---------------------------------------------------------------------------
+MEDIAPIPE_HOLISTIC_MAP: dict[int, int] = {
+    C.NOSE: 0,
+    C.LEFT_EYE_INNER: 1,
+    C.LEFT_EYE: 2,
+    C.LEFT_EYE_OUTER: 3,
+    C.RIGHT_EYE_INNER: 4,
+    C.RIGHT_EYE: 5,
+    C.RIGHT_EYE_OUTER: 6,
+    C.LEFT_EAR: 7,
+    C.RIGHT_EAR: 8,
+    C.MOUTH_LEFT: 9,
+    C.MOUTH_RIGHT: 10,
+    C.LEFT_SHOULDER: 11,
+    C.RIGHT_SHOULDER: 12,
+    C.LEFT_ELBOW: 13,
+    C.RIGHT_ELBOW: 14,
+    C.LEFT_HIP: 23,
+    C.RIGHT_HIP: 24,
+    C.LEFT_KNEE: 25,
+    C.RIGHT_KNEE: 26,
+    C.LEFT_ANKLE: 27,
+    C.RIGHT_ANKLE: 28,
+    C.LEFT_HEEL: 29,
+    C.RIGHT_HEEL: 30,
+    C.LEFT_FOOT_INDEX: 31,
+    C.RIGHT_FOOT_INDEX: 32,
+}
+for _off in range(21):
+    MEDIAPIPE_HOLISTIC_MAP[C.LEFT_HAND_START + _off] = 33 + _off
+    MEDIAPIPE_HOLISTIC_MAP[C.RIGHT_HAND_START + _off] = 54 + _off
+
+# ---------------------------------------------------------------------------
+# OpenPose BODY_25 (body + feet, no hands)
+#   0 nose, 1 neck, 2 R-shoulder, 3 R-elbow, 4 R-wrist,
+#   5 L-shoulder, 6 L-elbow, 7 L-wrist, 8 mid-hip,
+#   9 R-hip, 10 R-knee, 11 R-ankle, 12 L-hip, 13 L-knee, 14 L-ankle,
+#   15 R-eye, 16 L-eye, 17 R-ear, 18 L-ear,
+#   19 L-big-toe, 20 L-small-toe, 21 L-heel,
+#   22 R-big-toe, 23 R-small-toe, 24 R-heel
+# ---------------------------------------------------------------------------
+OPENPOSE_BODY25_MAP: dict[int, int] = {
+    C.NOSE: 0,
+    C.LEFT_EYE: 16,
+    C.RIGHT_EYE: 15,
+    C.LEFT_EAR: 18,
+    C.RIGHT_EAR: 17,
+    C.LEFT_SHOULDER: 5,
+    C.RIGHT_SHOULDER: 2,
+    C.LEFT_ELBOW: 6,
+    C.RIGHT_ELBOW: 3,
+    C.LEFT_HIP: 12,
+    C.RIGHT_HIP: 9,
+    C.LEFT_KNEE: 13,
+    C.RIGHT_KNEE: 10,
+    C.LEFT_ANKLE: 14,
+    C.RIGHT_ANKLE: 11,
+    C.LEFT_FOOT_INDEX: 19,
+    C.RIGHT_FOOT_INDEX: 22,
+    C.LEFT_HEEL: 21,
+    C.RIGHT_HEEL: 24,
+}
+OPENPOSE_BODY25_EXTRAS = {"left_small_toe": 20, "right_small_toe": 23}
+
 
 @dataclass(frozen=True)
 class LandmarkLayout:
@@ -137,8 +204,33 @@ COCO17 = LandmarkLayout(
     has_hands=False,
     has_feet=False,
 )
+MEDIAPIPE_HOLISTIC = LandmarkLayout(
+    name="mediapipe_holistic",
+    num_keypoints=75,
+    mapping=MEDIAPIPE_HOLISTIC_MAP,
+    extras={},
+    has_hands=True,
+    has_feet=True,
+)
+OPENPOSE_BODY25 = LandmarkLayout(
+    name="openpose_body25",
+    num_keypoints=25,
+    mapping=OPENPOSE_BODY25_MAP,
+    extras=OPENPOSE_BODY25_EXTRAS,
+    has_hands=False,
+    has_feet=True,
+)
 
-LAYOUTS = {layout.name: layout for layout in (WHOLEBODY133, HALPE26, COCO17)}
+LAYOUTS = {
+    layout.name: layout
+    for layout in (
+        WHOLEBODY133,
+        HALPE26,
+        COCO17,
+        MEDIAPIPE_HOLISTIC,
+        OPENPOSE_BODY25,
+    )
+}
 
 
 def to_common(

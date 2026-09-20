@@ -45,7 +45,15 @@ class AnalysisResult:
 
     @property
     def complete(self) -> bool:
-        """True when the frame yielded a posture and a correctness decision."""
+        """True when the frame has a recognition outcome the video layer can show.
+
+        TRANSITION is a valid identity ("not yet a stable posture") and must be
+        published, even though correctness rules do not apply to it. Dropping
+        those frames made the smoother hold the previous label, which is how a
+        deepening Aramandi could appear to jump into a false Muzhumandi.
+        """
+        if self.recognition is not None and self.recognition.is_transition:
+            return True
         return bool(self.posture) and self.status != UNKNOWN
 
 
@@ -54,12 +62,21 @@ class PostureAnalyzer:
 
     def __init__(
         self,
-        spec: ModelSpec,
+        spec: ModelSpec | None = None,
         score_threshold: float = KEYPOINT_SCORE_THRESHOLD,
         reuse_detection_for: int = 0,
+        backend=None,
     ) -> None:
-        self.spec = spec
         self.score_threshold = score_threshold
+        if backend is not None:
+            # Comparison backends share this wrapper; the video path still
+            # constructs PoseEstimator from a ModelSpec and is unchanged.
+            self.spec = spec
+            self.estimator = backend
+            return
+        if spec is None:
+            raise TypeError("PostureAnalyzer requires a ModelSpec or a pose backend")
+        self.spec = spec
         self.estimator = PoseEstimator(
             spec,
             score_threshold=score_threshold,

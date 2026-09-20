@@ -10,6 +10,10 @@ env/
 # --- Model binaries (large; fetch with scripts/download_models.py) ---
 models/onnx/*.onnx
 models/onnx/*.zip
+models/onnx/*.pt
+models/openpose/*.caffemodel
+models/openpose/*.prototxt
+yolov8*.pt
 
 # --- Datasets stay outside the repository ---
 data/raw/*

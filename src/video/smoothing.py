@@ -35,9 +35,11 @@ class SmoothedState:
 class TemporalSmoother:
     """Majority vote over a rolling window, plus EMA on numeric parameters.
 
-    `min_agreement` is the fraction of the window that must agree before a new
-    label is published; until then the previous stable label is retained, which
-    is what keeps the UI steady during the transition between two postures.
+    Switching is hysteretic: `min_agreement` is enough to CONFIRM the label that
+    is already displayed, but replacing it with a different posture needs the
+    stronger `switch_agreement`. That asymmetry is what stops the readout from
+    flickering between two postures while the dancer moves through the boundary
+    between them, without delaying a genuine change for long.
     """
 
     def __init__(
@@ -46,11 +48,13 @@ class TemporalSmoother:
         min_agreement: float = 0.5,
         ema_alpha: float = 0.35,
         max_hold_frames: int = 45,
+        switch_agreement: float = 0.65,
     ) -> None:
         self.window = max(1, window)
         self.min_agreement = min_agreement
         self.ema_alpha = ema_alpha
         self.max_hold_frames = max_hold_frames
+        self.switch_agreement = max(min_agreement, switch_agreement)
 
         self._postures: deque[str] = deque(maxlen=self.window)
         self._verdicts: deque[tuple[str, str, str]] = deque(maxlen=self.window)
@@ -96,8 +100,11 @@ class TemporalSmoother:
         self._blend(parameters or {})
 
         posture_vote, posture_share = _vote(self._postures)
-        if posture_share >= self.min_agreement and posture_vote:
-            self._state.posture = posture_vote
+        if posture_vote:
+            keeping = posture_vote == self._state.posture or not self._state.posture
+            required = self.min_agreement if keeping else self.switch_agreement
+            if posture_share >= required:
+                self._state.posture = posture_vote
 
         matching = [v for v in self._verdicts if v[0] == self._state.posture]
         if matching:
